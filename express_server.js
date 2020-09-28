@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const PORT = 3080; // default port 3080
+const PORT = 3080;
+
 app.set('view engine', 'ejs');
 
 const urlDatabase = {
@@ -14,6 +15,11 @@ app.get("/", (req, res) => {
 
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
+});
+
+app.get('/ulrs', (req, res) => {
+  const templateVars = { urls: urlDatabase };
+  res.render('urls_index', templateVars);
 });
 
 app.get("/hello", (req, res) => {
