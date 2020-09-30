@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3080;
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const checkEmail = require("./checkEmail");
+const { checkEmail, checkPassword } = require("./helper");
 
 app.set('view engine', 'ejs');
 
@@ -78,12 +78,23 @@ app.post("/urls/:shortURL/update", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  res.cookie('user_id', req.body.username);
-  res.redirect("/urls");
+  const { email, password } = req.body
+  if (checkEmail(users, email)) {
+    if (checkPassword(users, email, password)) {
+      res.cookie("user_id", checkPassword(users, email, password));
+      res.redirect("urls");
+    } else {
+      res.status(403)
+      res.redirect("login")
+    }
+  } else {
+    res.status(403)
+    res.redirect("login")
+  }
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie('user_id');
+  res.clearCookie("user_id");
   res.redirect("/urls");
 });
 
