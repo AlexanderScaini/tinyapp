@@ -85,12 +85,12 @@ app.post("/login", (req, res) => {
 app.post("/logout", (req, res) => {
   res.clearCookie('user_id');
   res.redirect("/urls");
-})
+});
 
 app.get("/register", (req, res) => {
   const templateVars = { user: users[req.cookies["user_id"]], urls: urlDatabase };
   res.render("register", templateVars);
-})
+});
 
 app.post("/register", (req, res) => {
   const { email, password } = req.body
@@ -105,9 +105,15 @@ app.post("/register", (req, res) => {
     res.redirect("register")
   } else if (checkEmail(users, email)) {
     res.status(400)
+    res.redirect("register")
   } else {
     users[newUserId] = newUser;
-    res.cookie('user_id', newUserId);  
+    res.cookie('user_id', newUserId);
     res.redirect("/urls")
   }
-})  
+});
+
+app.get("/login", (req, res) => {
+  const templateVars = { user: users[req.cookies["user_id"]], urls: urlDatabase };
+  res.render("login", templateVars);
+});

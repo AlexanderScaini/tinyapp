@@ -11,11 +11,18 @@
       </div>
       <div class="navbar-collapse nav justify-content-end">
         <% if (!user) {%>
-        <form class="form-inline" action="/login" method="POST">
+        <form class="form-inline" action="/login" method="GET">
           <div class="form-group mb-2">
             <div>
-              <input class="form-control" type="text" name="username" placeholder="username" style="width: 100px">
+              <!-- <input class="form-control" type="text" name="username" placeholder="username" style="width: 100px"> -->
               <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+          </div>
+        </form>
+        <form class="form-inline" action="/register" method="GET">
+          <div class="form-group mb-2">
+            <div>
+              <button type="submit" class="btn btn-primary">Register</button>
             </div>
           </div>
         </form>
