@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3080;
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-// const { response } = require("express");
+const checkEmail = require("./checkEmail");
 
 app.set('view engine', 'ejs');
 
@@ -21,11 +21,7 @@ const urlDatabase = {
 };
 
 const users = { 
-  "userRandomID": {
-    id: "userRandomID", 
-    email: "user@example.com", 
-    password: "purple-monkey-dinosaur"
-  }
+
 }
 
 
@@ -82,12 +78,12 @@ app.post("/urls/:shortURL/update", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  res.cookie('username', req.body.username);
+  res.cookie('user_id', req.body.username);
   res.redirect("/urls");
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie('username');
+  res.clearCookie('user_id');
   res.redirect("/urls");
 })
 
@@ -104,8 +100,14 @@ app.post("/register", (req, res) => {
     email, 
     password
   }
-  users[newUserId] = newUser;
-  res.cookie('user_id', newUserId);  
-  res.redirect("/urls")
-
+  if (!(newUser.password) || !(newUser.email)) {
+    res.status(400)
+    res.redirect("register")
+  } else if (checkEmail(users, email)) {
+    res.status(400)
+  } else {
+    users[newUserId] = newUser;
+    res.cookie('user_id', newUserId);  
+    res.redirect("/urls")
+  }
 })  
