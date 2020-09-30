@@ -10,7 +10,7 @@
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
       <div class="navbar-collapse nav justify-content-end">
-        <% if (!username) {%>
+        <% if (!user) {%>
         <form class="form-inline" action="/login" method="POST">
           <div class="form-group mb-2">
             <div>
@@ -23,7 +23,7 @@
           <form class="form-inline" action="/logout" method="POST">
             <div class="form-group mb-2">
               <div>
-                <%= `You are logged in as ${username}` %>
+                <%= `You are logged in as ${user.email}` %>
                 <button type="submit" class="btn btn-outline-secondary">Logout</button>
               </div>
             </div>
