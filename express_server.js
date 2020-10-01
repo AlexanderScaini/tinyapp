@@ -4,6 +4,7 @@ const PORT = 3080;
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const { checkEmail, checkPassword, getURLSForUser } = require("./helper");
+const bcrypt = require('bcrypt');
 
 app.set('view engine', 'ejs');
 
@@ -64,7 +65,6 @@ app.get("/u/:shortURL", (req, res) => {
 
 app.post("/urls/:shortURL/delete", (req, res) => {
   delete urlDatabase[req.params.shortURL]
-  console.log(urlDatabase)
   res.redirect("/urls")
 });
 
@@ -107,7 +107,7 @@ app.post("/register", (req, res) => {
   const newUser = {
     id: newUserId,
     email, 
-    password
+    password: bcrypt.hashSync(password, 10)
   }
   if (!(newUser.password) || !(newUser.email)) {
     res.status(400).redirect("register")

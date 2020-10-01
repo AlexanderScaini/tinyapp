@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 const checkEmail = (db, email) => {
   for (const user in db) {
     const currentUser = db[user]
@@ -12,7 +14,7 @@ const checkPassword = (db, email, password) => {
   for (const user in db) {
     const currentUser = db[user]
     if (currentUser.email === email) {
-      if (currentUser.password === password) {
+      if (bcrypt.compareSync(password, currentUser.password)) {
         return db[user].id
       }
     }
