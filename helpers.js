@@ -7,7 +7,7 @@ const checkEmail = (db, email) => {
       return true;
     }
   }
-  return null;
+  return false;
 };
 
 const checkPassword = (db, email, password) => {
