@@ -20,4 +20,14 @@ const checkPassword = (db, email, password) => {
   return null
 }
 
-module.exports = { checkEmail, checkPassword }
+const getURLSForUser = (urls, user_id) => {
+  let result = {};
+  for (const url in urls) {
+    if (urls[url].userID === user_id) {
+      result[url] = urls[url]
+    }
+  }
+  return result;
+}
+
+module.exports = { checkEmail, checkPassword, getURLSForUser }
