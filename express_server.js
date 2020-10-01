@@ -32,10 +32,10 @@ const users = {
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
-
+// redirects users from root to appropriate page
 app.get("/", (req, res) => {
   if(users[req.session.user_id]) {
-    res.redirect("urls");
+    return res.redirect("urls");
   }
   res.redirect('login');
 })
@@ -56,7 +56,7 @@ app.get('/urls', (req, res) => {
 app.get("/urls/new", (req, res) => {
   const templateVars = { user: users[req.session.user_id], urls: urlDatabase };
   if(users[req.session.user_id]) {
-    res.render("urls_new", templateVars);
+    return res.render("urls_new", templateVars);
   }
   res.redirect("/login");
 });
