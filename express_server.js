@@ -86,6 +86,7 @@ app.post("/urls/:shortURL/delete", (req, res) => {
 
 // the page where a user can be redirected to their longURL destination and also edit the longURL
 app.post("/urls/:shortURL/edit", (req, res) => {
+  console.log("post edit")
   res.redirect(`/urls/${req.params.shortURL}`);
 });
 
@@ -95,6 +96,13 @@ app.post("/urls/:shortURL/update", (req, res) => {
   const templateVars = { user: users[req.session.user_id], shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] ? urlDatabase[req.params.shortURL].longURL : null};
   res.render("urls_show", templateVars);
 });
+
+app.get("/u/:shortURL", (req, res) => {
+  const shortURL = req.params.shortURL
+  const targetURL = urlDatabase[shortURL].longURL;
+  res.redirect(targetURL);
+})
+
 
 // the login page
 app.get("/login", (req, res) => {
